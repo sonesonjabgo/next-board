@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_test {
+  test_code String   @id(map: "pk_tbl_test") @db.VarChar(6)
+  test_name String   @db.VarChar(100)
+  test_id   String   @db.VarChar(10)
+  test_date DateTime @default(now()) @db.Timestamp(6)
+}
