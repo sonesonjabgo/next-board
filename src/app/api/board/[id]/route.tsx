@@ -22,12 +22,7 @@ export async function PATCH(
 
   const updatedPost = await prisma.board.update({
     where: { board_id: Number(params.id) },
-    data: {
-      writer: body.writer,
-      title: body.title,
-      content: body.content,
-      updated_at: new Date(),
-    },
+    data: { ...body, updated_at: new Date() },
   });
 
   return NextResponse.json(updatedPost);
