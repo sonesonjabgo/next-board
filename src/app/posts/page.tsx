@@ -2,57 +2,45 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import PostTable from "./_components/PostTable";
 import Link from "next/link";
+import { IPost } from "../../types/post.type";
 
 function PostsPage() {
-  const rows = [
+  const data: IPost[] = [
     {
-      key: "1",
-      name: "Tony Reichert",
-      role: "CEO",
-      status: "Active",
+      board_id: "1",
+      title: "게시글 1",
+      writer: "문지은",
+      created_at: new Date(),
     },
     {
-      key: "2",
-      name: "Zoey Lang",
-      role: "Technical Lead",
-      status: "Paused",
+      board_id: "2",
+      title: "게시글 2",
+      writer: "문지은",
+      created_at: new Date(),
     },
     {
-      key: "3",
-      name: "Jane Fisher",
-      role: "Senior Developer",
-      status: "Active",
+      board_id: "3",
+      title: "게시글 3",
+      writer: "문지은",
+      created_at: new Date(),
     },
     {
-      key: "4",
-      name: "William Howard",
-      role: "Community Manager",
-      status: "Vacation",
+      board_id: "4",
+      title: "게시글 4",
+      writer: "문지은",
+      created_at: new Date(),
     },
   ];
 
-  const columns = [
-    {
-      key: "name",
-      label: "NAME",
-    },
-    {
-      key: "role",
-      label: "ROLE",
-    },
-    {
-      key: "status",
-      label: "STATUS",
-    },
-  ];
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-end">
-        <Button color="primary">
-          <Link href="posts/create">+ New</Link>
-        </Button>
+      <div className="flex justify-between">
+        <h1>게시글 목록</h1>
+        <Link href="posts/create">
+          <Button color="primary">+ New</Button>
+        </Link>
       </div>
-      <PostTable columns={columns} rows={rows} />
+      <PostTable data={data} />
     </div>
   );
 }
