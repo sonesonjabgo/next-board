@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableHeader,
@@ -7,36 +7,56 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@nextui-org/react";
-
-interface Column {
-  key: string;
-  label: string;
-}
-
-interface Row {
-  key: string;
-  [key: string]: any;
-}
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import { IPost } from "../../../../types/post.type";
 
 interface Props {
-  columns: Column[];
-  rows: Row[];
+  data: IPost[];
 }
 
-function PostTable({ columns, rows }: Props) {
+function PostTable({ data }: Props) {
+  const router = useRouter();
+
+  const columns = [
+    {
+      key: "title",
+      label: "제목",
+    },
+    {
+      key: "writer",
+      label: "작성자",
+    },
+    {
+      key: "created_at",
+      label: "작성일",
+    },
+  ];
+
+  const goDetail = (id: string) => {
+    router.push(`/posts/${id}`);
+  };
+
+  const formatDate = (date: Date) => {
+    return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
+  };
+
   return (
     <Table color="primary" aria-label="table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
-      <TableBody items={rows} emptyContent={"게시물이 없습니다."}>
+      <TableBody items={data} emptyContent={"게시물이 없습니다."}>
         {(item) => (
-          <TableRow key={item.key}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-            )}
+          <TableRow
+            key={item.board_id}
+            onClick={() => goDetail(item.board_id)}
+            className="hover:bg-gray-50 cursor-pointer"
+          >
+            <TableCell width={"60%"}>{item.title}</TableCell>
+            <TableCell width={"20%"}>{item.writer}</TableCell>
+            <TableCell width={"20%"}>{formatDate(item.created_at)}</TableCell>
           </TableRow>
         )}
       </TableBody>

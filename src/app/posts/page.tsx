@@ -2,57 +2,31 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import PostTable from "./_components/PostTable";
 import Link from "next/link";
+import { IPost } from "../../types/post.type";
 
-function PostsPage() {
-  const rows = [
-    {
-      key: "1",
-      name: "Tony Reichert",
-      role: "CEO",
-      status: "Active",
-    },
-    {
-      key: "2",
-      name: "Zoey Lang",
-      role: "Technical Lead",
-      status: "Paused",
-    },
-    {
-      key: "3",
-      name: "Jane Fisher",
-      role: "Senior Developer",
-      status: "Active",
-    },
-    {
-      key: "4",
-      name: "William Howard",
-      role: "Community Manager",
-      status: "Vacation",
-    },
-  ];
+const fetchPosts = async (): Promise<IPost[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/board`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const data = await res.json();
+  return data;
+};
 
-  const columns = [
-    {
-      key: "name",
-      label: "NAME",
-    },
-    {
-      key: "role",
-      label: "ROLE",
-    },
-    {
-      key: "status",
-      label: "STATUS",
-    },
-  ];
+async function PostsPage() {
+  const data = await fetchPosts();
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-end">
-        <Button color="primary">
-          <Link href="posts/create">+ New</Link>
-        </Button>
+      <div className="flex justify-between">
+        <h1>게시글 목록</h1>
+        <Link href="posts/create">
+          <Button color="primary">+ New</Button>
+        </Link>
       </div>
-      <PostTable columns={columns} rows={rows} />
+      <PostTable data={data} />
     </div>
   );
 }
