@@ -8,9 +8,9 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { IPost } from "../../../../types/post.type";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { IPost } from "../../../../types/post.type";
 
 interface Props {
   data: IPost[];

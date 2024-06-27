@@ -7,25 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model board {
-  board_id   Int      @id @default(autoincrement())
-  writer     String?  @db.VarChar(50)
-  title      String?  @db.VarChar(50)
-  content    String?  @db.VarChar(1000)
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  board_id   Int       @id @default(autoincrement())
+  writer     String?   @db.VarChar(50)
+  title      String?   @db.VarChar(50)
+  content    String?   @db.VarChar(1000)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
   deleted_at DateTime?
   reply      reply[]
 }
 
-
 model reply {
   board_id   Int
-  reply_id   Int      @id @default(autoincrement())
-  writer     String?  @db.VarChar(50)
-  content    String?  @db.VarChar(1000)
-  created_at DateTime @default(now())
+  reply_id   Int       @id @default(autoincrement())
+  writer     String?   @db.VarChar(50)
+  content    String?   @db.VarChar(1000)
+  created_at DateTime  @default(now())
   deleted_at DateTime?
-  board      board    @relation(fields: [board_id], references: [board_id], onUpdate: Restrict, map: "fk_reply_board_id_board_board_id")
+  board      board     @relation(fields: [board_id], references: [board_id], onUpdate: Restrict, map: "fk_reply_board_id_board_board_id")
 }

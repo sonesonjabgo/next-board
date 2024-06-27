@@ -4,33 +4,19 @@ import PostTable from "./_components/PostTable";
 import Link from "next/link";
 import { IPost } from "../../types/post.type";
 
-function PostsPage() {
-  const data: IPost[] = [
-    {
-      board_id: "1",
-      title: "게시글 1",
-      writer: "문지은",
-      created_at: new Date(),
-    },
-    {
-      board_id: "2",
-      title: "게시글 2",
-      writer: "문지은",
-      created_at: new Date(),
-    },
-    {
-      board_id: "3",
-      title: "게시글 3",
-      writer: "문지은",
-      created_at: new Date(),
-    },
-    {
-      board_id: "4",
-      title: "게시글 4",
-      writer: "문지은",
-      created_at: new Date(),
-    },
-  ];
+const fetchPosts = async (): Promise<IPost[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/board`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const data = await res.json();
+  return data;
+};
+
+async function PostsPage() {
+  const data = await fetchPosts();
 
   return (
     <div className="flex flex-col gap-4">
