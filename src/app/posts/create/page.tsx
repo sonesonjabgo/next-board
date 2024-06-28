@@ -14,6 +14,21 @@ function CreatePostPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    if (!title) {
+      window.alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (!writer) {
+      window.alert("작성자를 입력해주세요.");
+      return;
+    }
+
+    if (!content) {
+      window.alert("내용을 입력해주세요.");
+      return;
+    }
+
     const postData: ICreatePost = {
       title: title,
       writer: writer,
