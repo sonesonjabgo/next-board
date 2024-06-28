@@ -6,14 +6,15 @@ import {
   CardFooter,
   CardHeader,
   Divider,
-  Input,
 } from "@nextui-org/react";
 import { IPostDetail } from "../../../types/post.type";
 import dayjs from "dayjs";
 import Link from "next/link";
+import ReplyInput from "../_components/ReplyInput";
+import NotFound from "../../not-found";
 
 interface Props {
-  params: { id: number };
+  params: { id: string };
 }
 
 async function fetchDetailPage(param: string): Promise<IPostDetail> {
@@ -32,7 +33,9 @@ async function fetchDetailPage(param: string): Promise<IPostDetail> {
 }
 
 async function PostDetailPage({ params: { id } }: Props) {
-  const data = await fetchDetailPage(String(id));
+  if (id.length > 10) NotFound();
+
+  const data = await fetchDetailPage(id);
 
   return (
     <div className="flex flex-col gap-6">
@@ -74,9 +77,7 @@ async function PostDetailPage({ params: { id } }: Props) {
       </Card>
 
       <Card>
-        <Input></Input>
-        <Input></Input>
-        <Input></Input>
+        <ReplyInput params={{ id }} />
       </Card>
     </div>
   );

@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   if (request.method === "POST") {
     const reply = await prisma.reply.create({
-      data: body,
+      data: { ...body },
     });
 
     return NextResponse.json(reply);
