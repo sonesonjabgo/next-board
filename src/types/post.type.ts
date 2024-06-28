@@ -14,6 +14,7 @@ export interface IReply {
 
 export interface IPostDetail extends IPost {
   content: string;
+  updated_at: Date;
   reply: IReply[];
 }
 
