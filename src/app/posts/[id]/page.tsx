@@ -1,6 +1,6 @@
 import React from "react";
-import { notFound } from "next/navigation";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { IPostDetail } from "../../../types/post.type";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 interface Props {
   params: { id: number };
@@ -31,12 +32,15 @@ async function fetchDetailPage(param: string): Promise<IPostDetail> {
 }
 
 async function PostDetailPage({ params: { id } }: Props) {
-  if (id > 10) notFound();
-
   const data = await fetchDetailPage(String(id));
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex justify-end">
+        <Link href={`edit/${id}`}>
+          <Button>수정</Button>
+        </Link>
+      </div>
       <Card>
         <CardHeader className="flex justify-between">
           <h3>{data.title}</h3>

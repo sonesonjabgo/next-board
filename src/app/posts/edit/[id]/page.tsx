@@ -1,15 +1,37 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
-import { ICreatePost } from "../../../types/post.type";
 import { useRouter } from "next/navigation";
-import PostForm from "../_components/PostForm";
+import React, { FormEvent, useEffect, useState } from "react";
+import { ICreatePost } from "../../../../types/post.type";
+import PostForm from "../../_components/PostForm";
 
-function CreatePostPage() {
+interface Props {
+  params: { id: number };
+}
+
+function EditPostPage({ params: { id } }: Props) {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [writer, setWriter] = useState<string>("");
   const [content, setContent] = useState<string>("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/board/${id}`
+      );
+      const data = await response.json();
+      setTitle(data.title);
+      setWriter(data.writer);
+      setContent(data.content);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -36,18 +58,21 @@ function CreatePostPage() {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/board`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/board/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
 
       if (!res.ok) {
-        throw new Error("Failed to create post");
+        throw new Error("Failed to update post");
       }
-      router.push("/posts");
+      router.push(`/posts/${id}`);
     } catch (error: any) {
       console.log(error);
     }
@@ -56,7 +81,7 @@ function CreatePostPage() {
   return (
     <div className="flex w-full justify-center">
       <PostForm
-        type="CREATE"
+        type="EDIT"
         title={title}
         onTitleChange={(e) => setTitle(e.target.value)}
         writer={writer}
@@ -69,4 +94,4 @@ function CreatePostPage() {
   );
 }
 
-export default CreatePostPage;
+export default EditPostPage;
