@@ -38,6 +38,9 @@ function NavigationBar() {
       <NavLink href="/posts" active={isActive("posts")}>
         Posts
       </NavLink>
+      <NavLink href="/chat" active={isActive("chat")}>
+        chat
+      </NavLink>
     </div>
   );
 }
