@@ -29,6 +29,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socket.on("connect", () => {
+      console.log("연결이 되었습니다.");
       setIsConnected(true);
     });
 
@@ -37,6 +38,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socket.on("disconnect", () => {
+      console.log("연결이 끊겼습니다.");
       setIsConnected(false);
     });
 
