@@ -1,17 +1,15 @@
 import { NextApiRequest } from "next";
 import { NextApiResponseServerIO } from "./socket/io";
+import { IMessage } from "../../types/chat.type";
 
-export default function chatAPI(
-  req: NextApiRequest,
-  res: NextApiResponseServerIO
-) {
+const chatHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (req.method === "POST") {
-    // 메시지 얻기
-    const message = req.body;
+    const message = JSON.parse(req.body) as IMessage;
 
-    // on('message')가 메시지를 받음
     res.socket.server.io.emit("message", message);
 
     res.status(201).json(message);
   }
-}
+};
+
+export default chatHandler;

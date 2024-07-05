@@ -12,13 +12,9 @@ export type NextApiResponseServerIO = NextApiResponse & {
   };
 };
 
-export const ioHandler = (
-  req: NextApiRequest,
-  res: NextApiResponseServerIO
-) => {
+const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {
     const httpServer = res.socket.server as NetServer;
-    console.log(httpServer);
     const io = new ServerIO(httpServer, {
       path: "/api/socket/io",
       addTrailingSlash: false,
