@@ -6,7 +6,7 @@ const chatHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (req.method === "POST") {
     const message = JSON.parse(req.body) as IMessage;
 
-    res.socket.server.io.emit("message", message);
+    res.socket.server.io.emit("send", message);
 
     res.status(201).json(message);
   }

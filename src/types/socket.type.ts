@@ -4,7 +4,8 @@ import { IMessage } from "./chat.type";
 export interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void;
   error: (error: Error) => void;
-  message: (f: IMessage) => void;
+  send: (message: IMessage) => void;
+  receive: (message: IMessage) => void;
 }
 
 export type ClientSocketType = Socket<ServerToClientEvents>;
