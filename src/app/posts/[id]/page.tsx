@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from "@nextui-org/react";
-import { IPostDetail } from "../../../types/post.type";
-import dayjs from "dayjs";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import ReplyInput from "../_components/ReplyInput";
 import NotFound from "../../not-found";
